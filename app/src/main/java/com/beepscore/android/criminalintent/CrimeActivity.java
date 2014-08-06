@@ -1,14 +1,12 @@
 package com.beepscore.android.criminalintent;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 
-public class CrimeActivity extends Activity {
+public class CrimeActivity extends Activity
+    implements CrimeFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,24 +14,12 @@ public class CrimeActivity extends Activity {
         setContentView(R.layout.activity_crime);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new CrimeFragment())
                     .commit();
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_crime, container, false);
-            return rootView;
-        }
+    public void onFragmentInteraction(Uri uri) {
     }
+
 }
