@@ -14,7 +14,8 @@ public class CrimeActivity extends Activity
         setContentView(R.layout.activity_crime);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new CrimeFragment())
+                    // use CrimeFragment factory method newInstance
+                    .add(R.id.container, CrimeFragment.newInstance("foo", "bar"))
                     .commit();
         }
     }
