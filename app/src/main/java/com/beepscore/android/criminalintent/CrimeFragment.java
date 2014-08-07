@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +31,7 @@ public class CrimeFragment extends Fragment {
     private String mParam2;
 
     private Crime mCrime;
+    private EditText mTitleField;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -63,8 +67,28 @@ public class CrimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Fragments inflate their view in onCreateView, not in onCreate
         View rootView = inflater.inflate(R.layout.fragment_crime, container, false);
+
+        mTitleField = (EditText)rootView.findViewById(R.id.crime_title);
+        mTitleField.addTextChangedListener(new TextWatcher() {
+
+            public void onTextChanged(
+                    CharSequence c, int start, int before, int count) {
+                mCrime.setTitle(c.toString());
+            }
+
+            public void beforeTextChanged(
+                    CharSequence c, int start, int count, int after) {
+                // This space intentionally left blank
+            }
+
+            public void afterTextChanged(Editable c) {
+                // This one too
+            }
+        });
+
         return rootView;
     }
 
