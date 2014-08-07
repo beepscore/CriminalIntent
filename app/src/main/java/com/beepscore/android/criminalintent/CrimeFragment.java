@@ -27,6 +27,7 @@ public class CrimeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Crime mCrime;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -46,23 +47,23 @@ public class CrimeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    
+
     public CrimeFragment() {
         // Required empty public constructor
     }
 
+    // Fragments declare onCreate() public, for use by any Activity
+    // Activities declare onCreate() protected
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        mCrime = new Crime();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Fragments inflate their view in onCreateView, not in onCreate
         View rootView = inflater.inflate(R.layout.fragment_crime, container, false);
         return rootView;
     }
