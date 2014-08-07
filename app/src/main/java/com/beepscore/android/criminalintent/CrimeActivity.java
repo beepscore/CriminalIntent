@@ -15,6 +15,8 @@ public class CrimeActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crime);
 
+        // FragmentManager manages a list of fragments and a backStack of fragment transactions
+        // http://developer.android.com/reference/android/app/FragmentManager.html
         FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.container);
 
