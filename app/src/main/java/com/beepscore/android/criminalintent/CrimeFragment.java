@@ -100,20 +100,7 @@ public class CrimeFragment extends Fragment {
         });
 
         mDateButton = (Button)rootView.findViewById(R.id.crime_date);
-
-        // example Fri Aug 08 16:51:55 PDT 2014
-        // mDateButton.setText(mCrime.getDate().toString());
-
-        Date crimeDate = mCrime.getDate();
-        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-        String dayOfTheWeek = sdf.format(crimeDate);
-
-        DateFormat df = DateFormat.getDateInstance();
-        // example dateString Aug 8 2014
-        String dateString = df.format(crimeDate);
-
-        mDateButton.setText(dayOfTheWeek + ", " + dateString);
-
+        mDateButton.setText(formattedDateString(mCrime.getDate()));
         mDateButton.setEnabled(false);
 
         mSolvedCheckBox = (CheckBox)rootView.findViewById(R.id.crime_solved);
@@ -126,6 +113,21 @@ public class CrimeFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    protected String formattedDateString(Date date) {
+
+        // example Fri Aug 08 16:51:55 PDT 2014
+        // date.toString()
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        String dayOfTheWeek = sdf.format(date);
+
+        DateFormat df = DateFormat.getDateInstance();
+        // example dateString Aug 8 2014
+        String dateString = df.format(date);
+
+        return (dayOfTheWeek + ", " + dateString);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
