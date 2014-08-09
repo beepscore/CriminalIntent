@@ -14,6 +14,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.text.DateFormat;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -96,7 +98,14 @@ public class CrimeFragment extends Fragment {
         });
 
         mDateButton = (Button)rootView.findViewById(R.id.crime_date);
-        mDateButton.setText(mCrime.getDate().toString());
+
+        // example Fri Aug 08 16:51:55 PDT 2014
+        // mDateButton.setText(mCrime.getDate().toString());
+        DateFormat df = DateFormat.getDateInstance();
+        // example dateString Aug 8 2014
+        String dateString = df.format(mCrime.getDate());
+        mDateButton.setText(dateString);
+
         mDateButton.setEnabled(false);
 
         mSolvedCheckBox = (CheckBox)rootView.findViewById(R.id.crime_solved);
