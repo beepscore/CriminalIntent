@@ -15,6 +15,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -101,10 +103,16 @@ public class CrimeFragment extends Fragment {
 
         // example Fri Aug 08 16:51:55 PDT 2014
         // mDateButton.setText(mCrime.getDate().toString());
+
+        Date crimeDate = mCrime.getDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        String dayOfTheWeek = sdf.format(crimeDate);
+
         DateFormat df = DateFormat.getDateInstance();
         // example dateString Aug 8 2014
-        String dateString = df.format(mCrime.getDate());
-        mDateButton.setText(dateString);
+        String dateString = df.format(crimeDate);
+
+        mDateButton.setText(dayOfTheWeek + ", " + dateString);
 
         mDateButton.setEnabled(false);
 
