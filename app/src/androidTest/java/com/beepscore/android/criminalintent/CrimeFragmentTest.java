@@ -9,7 +9,7 @@ public class CrimeFragmentTest extends TestCase {
 
     public void testArithmetic() {
         Integer expected = 3;
-        Integer actual = 1 + 1;
+        Integer actual = 1 + 2;
         String failMessage = "test failed";
         assertEquals(failMessage, expected, actual);
     }
