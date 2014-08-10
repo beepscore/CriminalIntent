@@ -86,6 +86,7 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
         mCrimes = CrimeLab.get(getActivity()).getCrimes();
     }
 
+    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,7 +101,9 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
 
         return view;
     }
+    */
 
+    /*
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -111,13 +114,15 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
                 + " must implement OnFragmentInteractionListener");
         }
     }
+    */
 
+    /*
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
+    */
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -133,6 +138,7 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
      * the list is empty. If you would like to change the text, call this method
      * to supply the text it should use.
      */
+    /*
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
 
@@ -140,6 +146,7 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
             ((TextView) emptyView).setText(emptyText);
         }
     }
+    */
 
     /**
     * This interface must be implemented by activities that contain this
