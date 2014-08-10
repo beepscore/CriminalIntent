@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.beepscore.android.criminalintent.dummy.DummyContent;
 
+import java.util.ArrayList;
+
 /**
  * A fragment representing a list of Items.
  * <p />
@@ -48,6 +50,8 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
      */
     private ListAdapter mAdapter;
 
+    private ArrayList<Crime> mCrimes;
+
     // TODO: Rename and change types of parameters
     public static CrimeListFragment newInstance(String param1, String param2) {
         CrimeListFragment fragment = new CrimeListFragment();
@@ -69,8 +73,6 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getActivity().setTitle(R.string.crimes_title);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -79,6 +81,9 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
         // TODO: Change Adapter to display your content
         mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
+
+        getActivity().setTitle(R.string.crimes_title);
+        mCrimes = CrimeLab.get(getActivity()).getCrimes();
     }
 
     @Override
