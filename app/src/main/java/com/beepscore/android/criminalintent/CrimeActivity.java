@@ -18,13 +18,13 @@ public class CrimeActivity extends Activity
         // FragmentManager manages a list of fragments and a backStack of fragment transactions
         // http://developer.android.com/reference/android/app/FragmentManager.html
         FragmentManager fm = getFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.container);
+        Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 
         if (fragment == null) {
             fragment = CrimeFragment.newInstance("foo", "bar");
             fm.beginTransaction()
                     // use CrimeFragment factory method newInstance
-                    .add(R.id.container, fragment)
+                    .add(R.id.fragmentContainer, fragment)
                     .commit();
         }
     }
