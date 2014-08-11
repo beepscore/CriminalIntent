@@ -1,8 +1,10 @@
 package com.beepscore.android.criminalintent;
 
 import android.app.Fragment;
+import android.net.Uri;
 
-public class CrimeListActivity extends SingleFragmentActivity {
+public class CrimeListActivity extends SingleFragmentActivity
+    implements CrimeListFragment.OnFragmentInteractionListener {
 
     /*
     @Override
@@ -33,6 +35,9 @@ public class CrimeListActivity extends SingleFragmentActivity {
 
     protected Fragment createFragment() {
         return new CrimeListFragment();
+    }
+
+    public void onFragmentInteraction(Uri uri) {
     }
 
 }

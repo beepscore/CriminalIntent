@@ -1,6 +1,8 @@
 package com.beepscore.android.criminalintent;
 
 import android.app.Activity;
+import android.app.ListFragment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class CrimeListFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class CrimeListFragment extends ListFragment implements AbsListView.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,17 +80,16 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        */
 
         // TODO: Change Adapter to display your content
         mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
                 android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
-        */
 
         getActivity().setTitle(R.string.crimes_title);
         mCrimes = CrimeLab.get(getActivity()).getCrimes();
     }
 
-    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,9 +104,7 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
 
         return view;
     }
-    */
 
-    /*
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -116,22 +115,19 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
                 + " must implement OnFragmentInteractionListener");
         }
     }
-    */
 
-    /*
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-    */
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
     }
 
@@ -140,7 +136,6 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
      * the list is empty. If you would like to change the text, call this method
      * to supply the text it should use.
      */
-    /*
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
 
@@ -148,7 +143,6 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
             ((TextView) emptyView).setText(emptyText);
         }
     }
-    */
 
     /**
     * This interface must be implemented by activities that contain this
@@ -162,7 +156,6 @@ public class CrimeListFragment extends Fragment implements AbsListView.OnItemCli
     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+        public void onFragmentInteraction(Uri uri);
     }
-
 }
