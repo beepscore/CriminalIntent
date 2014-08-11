@@ -5,6 +5,7 @@ import android.app.ListFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -29,6 +31,8 @@ import java.util.ArrayList;
  * interface.
  */
 public class CrimeListFragment extends ListFragment implements AbsListView.OnItemClickListener {
+
+    private static final String TAG = "CrimeListFragment";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +54,8 @@ public class CrimeListFragment extends ListFragment implements AbsListView.OnIte
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    //private ListAdapter mAdapter;
+    private ArrayAdapter mAdapter;
 
     private ArrayList<Crime> mCrimes;
 
@@ -88,8 +93,10 @@ public class CrimeListFragment extends ListFragment implements AbsListView.OnIte
         mAdapter = new ArrayAdapter<Crime>(getActivity(),
                 android.R.layout.simple_list_item_1,
                 mCrimes);
+        setListAdapter(mAdapter);
     }
 
+    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,6 +111,7 @@ public class CrimeListFragment extends ListFragment implements AbsListView.OnIte
 
         return view;
     }
+    */
 
     @Override
     public void onAttach(Activity activity) {
@@ -129,6 +137,12 @@ public class CrimeListFragment extends ListFragment implements AbsListView.OnIte
             // fragment is attached to one) that an item has been selected.
             //mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
         }
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View view, int position, long id) {
+        Crime c = (Crime)(getListAdapter()).getItem(position);
+        Log.d(TAG, c.getTitle() + " was clicked");
     }
 
     /**
