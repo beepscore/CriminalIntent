@@ -82,12 +82,12 @@ public class CrimeListFragment extends ListFragment implements AbsListView.OnIte
         }
         */
 
-        // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
-
         getActivity().setTitle(R.string.crimes_title);
         mCrimes = CrimeLab.get(getActivity()).getCrimes();
+
+        mAdapter = new ArrayAdapter<Crime>(getActivity(),
+                android.R.layout.simple_list_item_1,
+                mCrimes);
     }
 
     @Override
