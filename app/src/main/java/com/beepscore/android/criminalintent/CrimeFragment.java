@@ -17,6 +17,7 @@ import android.widget.EditText;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +38,7 @@ public class CrimeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    public static final String EXTRA_CRIME_ID = "com.beepscore.android.criminalintent.crime_id";
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
@@ -71,7 +73,13 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCrime = new Crime();
+
+        // As a "shortcut", use getActivity to access the intent
+        // Reference book Ch 10 pg 193
+        // Alternatively could use more complicated and powerful fragment arguments technique
+        UUID crimeID = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+
+        mCrime = CrimeLab.get(getActivity()).getCrime(crimeID);
     }
 
     @Override
@@ -82,6 +90,7 @@ public class CrimeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_crime, container, false);
 
         mTitleField = (EditText)rootView.findViewById(R.id.crime_title);
+        mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
 
             public void onTextChanged(
@@ -104,6 +113,7 @@ public class CrimeFragment extends Fragment {
         mDateButton.setEnabled(false);
 
         mSolvedCheckBox = (CheckBox)rootView.findViewById(R.id.crime_solved);
+        mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

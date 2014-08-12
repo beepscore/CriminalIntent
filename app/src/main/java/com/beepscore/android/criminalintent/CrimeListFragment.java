@@ -114,10 +114,12 @@ public class CrimeListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
-        Crime c = ((CrimeAdapter)getListAdapter()).getItem(position);
+        // Get the crime from the adapter
+        Crime crime = ((CrimeAdapter)getListAdapter()).getItem(position);
 
         // Start CrimeActivity
         Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
         startActivity(intent);
     }
 
