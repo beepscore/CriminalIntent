@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class CrimeListFragment extends ListFragment implements AbsListView.OnItemClickListener {
+public class CrimeListFragment extends ListFragment {
 
     private static final String TAG = "CrimeListFragment";
 
