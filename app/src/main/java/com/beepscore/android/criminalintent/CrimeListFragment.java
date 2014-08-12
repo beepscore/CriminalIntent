@@ -55,7 +55,7 @@ public class CrimeListFragment extends ListFragment {
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ArrayAdapter mAdapter;
+    private CrimeAdapter mAdapter;
 
     private ArrayList<Crime> mCrimes;
 
