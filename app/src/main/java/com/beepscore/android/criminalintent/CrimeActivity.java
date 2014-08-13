@@ -3,6 +3,8 @@ package com.beepscore.android.criminalintent;
 import android.app.Fragment;
 import android.net.Uri;
 
+import java.util.UUID;
+
 
 public class CrimeActivity extends SingleFragmentActivity
         implements CrimeFragment.OnFragmentInteractionListener {
@@ -11,7 +13,8 @@ public class CrimeActivity extends SingleFragmentActivity
     }
 
     protected Fragment createFragment() {
-        return CrimeFragment.newInstance("foo", "bar");
+        UUID crimeId = (UUID)getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
+        return CrimeFragment.newInstance(crimeId);
     }
 
 }

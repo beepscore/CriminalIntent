@@ -47,19 +47,15 @@ public class CrimeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * Use fragment arguments to pass in information
+     * Reference book Phillips Ch 10 pg 193, 196
      * @return A new instance of fragment CrimeFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static CrimeFragment newInstance(String param1, String param2) {
+    public static CrimeFragment newInstance(UUID crimeId) {
+
         CrimeFragment fragment = new CrimeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(EXTRA_CRIME_ID, crimeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,12 +70,8 @@ public class CrimeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // As a "shortcut", use getActivity to access the intent
-        // Reference book Ch 10 pg 193
-        // Alternatively could use more complicated and powerful fragment arguments technique
-        UUID crimeID = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
-
-        mCrime = CrimeLab.get(getActivity()).getCrime(crimeID);
+        UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
+        mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
     @Override

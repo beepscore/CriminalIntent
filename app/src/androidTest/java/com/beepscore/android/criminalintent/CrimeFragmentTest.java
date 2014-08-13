@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * Created by stevebaker on 8/8/14.
@@ -19,12 +20,14 @@ public class CrimeFragmentTest extends TestCase {
     }
 
     public void testCrimeFragmentNewInstance() {
-        CrimeFragment crimeFragment = CrimeFragment.newInstance("foo", "bar");
+        UUID testUUID = UUID.randomUUID();
+        CrimeFragment crimeFragment = CrimeFragment.newInstance(testUUID);
         assertNotNull("CrimeFragment null", crimeFragment);
     }
 
     public void testFormattedDateStringDate0() {
-        CrimeFragment crimeFragment = CrimeFragment.newInstance("foo", "bar");
+        UUID testUUID = UUID.randomUUID();
+        CrimeFragment crimeFragment = CrimeFragment.newInstance(testUUID);
 
         // beginning of UNIX epoch
         Date testDate = new Date(0);
@@ -35,7 +38,8 @@ public class CrimeFragmentTest extends TestCase {
     }
 
     public void testFormattedDateString() {
-        CrimeFragment crimeFragment = CrimeFragment.newInstance("foo", "bar");
+        UUID testUUID = UUID.randomUUID();
+        CrimeFragment crimeFragment = CrimeFragment.newInstance(testUUID);
 
         // set up test by instantiating a test date
         Date testDate = new Date(0);
