@@ -113,6 +113,16 @@ public class CrimeListFragment extends ListFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        // tell adapter to refresh view
+        // https://developer.android.com/reference/android/widget/ArrayAdapter.html#notifyDataSetChanged()
+        // http://stackoverflow.com/questions/3669325/notifydatasetchanged-example
+        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
         // Get the crime from the adapter
         Crime crime = ((CrimeAdapter)getListAdapter()).getItem(position);
