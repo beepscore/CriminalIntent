@@ -1,5 +1,6 @@
 package com.beepscore.android.criminalintent;
 
+import android.net.Uri;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import java.util.ArrayList;
 /**
  * Created by stevebaker on 8/13/14.
  */
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends FragmentActivity
+    implements CrimeFragment.OnFragmentInteractionListener {
+
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
 
@@ -38,5 +41,8 @@ public class CrimePagerActivity extends FragmentActivity {
                 return mCrimes.size();
             }
         });
+    }
+
+    public void onFragmentInteraction(Uri uri) {
     }
 }
