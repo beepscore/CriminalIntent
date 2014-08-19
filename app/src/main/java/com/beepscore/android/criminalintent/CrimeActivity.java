@@ -1,6 +1,6 @@
 package com.beepscore.android.criminalintent;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.net.Uri;
 
 import java.util.UUID;

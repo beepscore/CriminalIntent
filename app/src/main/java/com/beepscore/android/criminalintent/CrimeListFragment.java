@@ -1,24 +1,18 @@
 package com.beepscore.android.criminalintent;
 
+
 import android.app.Activity;
-import android.app.ListFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
-
 import com.beepscore.android.criminalintent.dummy.DummyContent;
 
 import java.util.ArrayList;

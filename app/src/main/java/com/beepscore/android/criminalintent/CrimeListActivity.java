@@ -1,7 +1,7 @@
 package com.beepscore.android.criminalintent;
 
-import android.app.Fragment;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
 
 public class CrimeListActivity extends SingleFragmentActivity
     implements CrimeListFragment.OnFragmentInteractionListener {

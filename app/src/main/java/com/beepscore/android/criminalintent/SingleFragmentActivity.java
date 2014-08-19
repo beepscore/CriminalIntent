@@ -1,16 +1,15 @@
 package com.beepscore.android.criminalintent;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 /**
  * Created by stevebaker on 8/10/14.
  */
 
-// extends Activity, not FragmentActivity as in book
-public abstract class SingleFragmentActivity extends Activity {
+public abstract class SingleFragmentActivity extends FragmentActivity {
 
     protected abstract Fragment createFragment();
 
@@ -21,7 +20,7 @@ public abstract class SingleFragmentActivity extends Activity {
 
         // FragmentManager manages a list of fragments and a backStack of fragment transactions
         // http://developer.android.com/reference/android/app/FragmentManager.html
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
 
         if (fragment == null) {
