@@ -43,6 +43,22 @@ public class CrimePagerActivity extends FragmentActivity
             }
         });
 
+        // implement ViewPager.OnPageChangeListener interface
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
+            }
+
+            public void onPageScrolled(int pos, float posOffset, int posOffsetPixels) {
+            }
+
+            public void onPageSelected(int pos) {
+                Crime crime = mCrimes.get(pos);
+                if (crime.getTitle() != null) {
+                    setTitle(crime.getTitle());
+                }
+            }
+        });
+
         UUID crimeId = (UUID)getIntent().getSerializableExtra(CrimeFragment.EXTRA_CRIME_ID);
         // Loop through all crimes looking for a match
         // This seems very inefficient!
