@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -38,6 +39,7 @@ public class CrimeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private static final String DIALOG_DATE = "date";
     public static final String EXTRA_CRIME_ID = "com.beepscore.android.criminalintent.crime_id";
     private Crime mCrime;
     private EditText mTitleField;
@@ -102,7 +104,14 @@ public class CrimeFragment extends Fragment {
 
         mDateButton = (Button)rootView.findViewById(R.id.crime_date);
         mDateButton.setText(formattedDateString(mCrime.getDate()));
-        mDateButton.setEnabled(false);
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                DatePickerFragment dialog = new DatePickerFragment();
+                dialog.show(fm, DIALOG_DATE);
+            }
+        });
 
         mSolvedCheckBox = (CheckBox)rootView.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
