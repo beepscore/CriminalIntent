@@ -1,7 +1,10 @@
 package com.beepscore.android.criminalintent;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
@@ -28,6 +31,19 @@ public class DatePickerFragment extends DialogFragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    private void sendResult(int resultCode) {
+        if (getTargetFragment() == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_DATE, mDate);
+
+        // When communicating between two fragments hosted by the same activity, we can call Fragment.onActivityResult().
+        // When communicating between two activities, don't call Activity.onActivityResult(), let ActivityManager do that.
+        // Reference Big Nerd Ranch book chapter 12 pg 222.
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
     @Override
@@ -66,7 +82,14 @@ public class DatePickerFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.date_picker_title)
-                .setPositiveButton(android.R.string.ok, null)
+                .setPositiveButton(
+                        android.R.string.ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                sendResult(Activity.RESULT_OK);
+                            }
+                        })
                 .create();
     }
 

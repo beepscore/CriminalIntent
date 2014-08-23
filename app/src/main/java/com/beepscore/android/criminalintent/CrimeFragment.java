@@ -1,6 +1,7 @@
 package com.beepscore.android.criminalintent;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -104,7 +105,7 @@ public class CrimeFragment extends Fragment {
         });
 
         mDateButton = (Button)rootView.findViewById(R.id.crime_date);
-        mDateButton.setText(formattedDateString(mCrime.getDate()));
+        updateDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FragmentManager fm = getActivity()
@@ -126,6 +127,10 @@ public class CrimeFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void updateDate() {
+        mDateButton.setText(formattedDateString(mCrime.getDate()));
     }
 
     protected String formattedDateString(Date date) {
@@ -180,6 +185,14 @@ public class CrimeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) return;
+        Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+        mCrime.setDate(date);
+        updateDate();
     }
 
 }
