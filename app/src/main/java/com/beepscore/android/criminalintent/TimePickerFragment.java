@@ -10,9 +10,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.TimePicker;
 
-import java.util.Calendar;
-import java.util.Date;
-
 /**
  * Created by stevebaker on 8/23/14.
  * http://developer.android.com/guide/topics/ui/controls/pickers.html
@@ -28,8 +25,8 @@ public class TimePickerFragment extends DialogFragment {
     // construct fragment with fragment arguments
     public static TimePickerFragment newInstance(int hour, int minute) {
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_HOUR, hour);
-        args.putSerializable(EXTRA_MINUTE, minute);
+        args.putInt(EXTRA_HOUR, hour);
+        args.putInt(EXTRA_MINUTE, minute);
 
         TimePickerFragment fragment = new TimePickerFragment();
         fragment.setArguments(args);
@@ -37,28 +34,14 @@ public class TimePickerFragment extends DialogFragment {
         return fragment;
     }
 
-    private void sendResult(int resultCode) {
-        if (getTargetFragment() == null) {
-            return;
-        }
-        Intent intent = new Intent();
-        intent.putExtra(EXTRA_HOUR, mHour);
-        intent.putExtra(EXTRA_MINUTE, mMinute);
-
-        // When communicating between two fragments hosted by the same activity, we can call Fragment.onActivityResult().
-        // When communicating between two activities, don't call Activity.onActivityResult(), let ActivityManager do that.
-        // Reference Big Nerd Ranch book chapter 12 pg 222.
-        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        mHour = getArguments().getInt(EXTRA_HOUR);
-        mMinute = getArguments().getInt(EXTRA_MINUTE);
+        mHour = getArguments().getInt(EXTRA_HOUR, 0);
+        mMinute = getArguments().getInt(EXTRA_MINUTE, 0);
 
         View v = getActivity().getLayoutInflater()
-                .inflate(R.layout.dialog_date, null);
+                .inflate(R.layout.dialog_time, null);
 
         TimePicker timePicker = (TimePicker)v.findViewById(R.id.dialog_time_timePicker);
         timePicker.setCurrentHour(mHour);
@@ -75,9 +58,9 @@ public class TimePickerFragment extends DialogFragment {
                 // Big Nerd Ranch book says DialogFragment has a bug, retained fragment doesn't work
                 // Here save state by writing to fragment argument
                 mHour = hour;
-                getArguments().putSerializable(EXTRA_HOUR, mHour);
+                getArguments().putInt(EXTRA_HOUR, mHour);
                 mMinute = minute;
-                getArguments().putSerializable(EXTRA_MINUTE, mMinute);
+                getArguments().putInt(EXTRA_MINUTE, mMinute);
             }
         });
 
@@ -93,6 +76,20 @@ public class TimePickerFragment extends DialogFragment {
                             }
                         })
                 .create();
+    }
+
+    private void sendResult(int resultCode) {
+        if (getTargetFragment() == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.putExtra(EXTRA_HOUR, mHour);
+        intent.putExtra(EXTRA_MINUTE, mMinute);
+
+        // When communicating between two fragments hosted by the same activity, we can call Fragment.onActivityResult().
+        // When communicating between two activities, don't call Activity.onActivityResult(), let ActivityManager do that.
+        // Reference Big Nerd Ranch book chapter 12 pg 222.
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
 
 }
