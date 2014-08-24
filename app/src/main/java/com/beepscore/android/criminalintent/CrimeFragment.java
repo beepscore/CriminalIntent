@@ -125,11 +125,6 @@ public class CrimeFragment extends Fragment {
         });
     }
 
-    // ******************************************************
-    // ******************************************************
-    // FIXME when list shows and user rotates phone app throws NullPointerException
-    // ******************************************************
-    // ******************************************************
     private void configureTimeButton(View rootView) {
         mTimeButton = (Button)rootView.findViewById(R.id.crime_time_button);
         updateTime();
@@ -166,11 +161,6 @@ public class CrimeFragment extends Fragment {
         mDateButton.setText(formattedDateString(mCrime.getDate()));
     }
 
-    // ******************************************************
-    // ******************************************************
-    // FIXME when list shows and user rotates phone app throws NullPointerException
-    // ******************************************************
-    // ******************************************************
     private void updateTime() {
         mTimeButton.setText(formattedTimeString(mCrime.getDate()));
     }
