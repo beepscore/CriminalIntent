@@ -2,7 +2,6 @@ package com.beepscore.android.criminalintent;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import android.test.IsolatedContext;
 import android.test.mock.MockContext;
 
 import junit.framework.TestCase;
@@ -30,24 +29,23 @@ public class CrimeLabTest extends AndroidTestCase {
         assertNotNull(crimeLab);
     }
 
-    public void testPopulateCrimesEvenSolved() {
+    public void testCrimeLabCrimesEmpty() {
         Context testContext = getContext();
         CrimeLab crimeLab = CrimeLab.get(testContext);
 
-        boolean expected = true;
         ArrayList<Crime> crimes = crimeLab.getCrimes();
-        boolean actual = crimes.get(4).isSolved();
-        assertEquals("", expected, actual);
+        assert(crimes.isEmpty());
     }
 
-    public void testPopulateCrimesOddNotSolved() {
+    public void testAddCrime() {
         Context testContext = getContext();
         CrimeLab crimeLab = CrimeLab.get(testContext);
 
-        boolean expected = false;
+        // TODO: use a mock crime
+        Crime testCrime = new Crime();
+        crimeLab.addCrime(testCrime);
         ArrayList<Crime> crimes = crimeLab.getCrimes();
-        boolean actual = crimes.get(7).isSolved();
-        assertEquals("", expected, actual);
+        assertEquals("", testCrime, crimes.get(0));
     }
 
 }

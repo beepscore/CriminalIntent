@@ -19,7 +19,6 @@ public class CrimeLab {
     private CrimeLab(Context appContext) {
         mAppContext = appContext;
         mCrimes = new ArrayList<Crime>();
-        populateCrimes();
     }
 
     // returns a singleton globally available within app
@@ -47,16 +46,6 @@ public class CrimeLab {
             }
         }
         return null;
-    }
-
-    private void populateCrimes() {
-        for (int i = 0; i < 100; i++) {
-            Crime c = new Crime();
-            c.setTitle("Crime #" + i);
-            // set even solved, odd not solved
-            c.setSolved(i % 2 == 0);
-            mCrimes.add(c);
-        }
     }
 
 }
