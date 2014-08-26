@@ -1,6 +1,7 @@
 package com.beepscore.android.criminalintent;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -9,7 +10,11 @@ import java.util.UUID;
  * Created by stevebaker on 8/9/14.
  */
 public class CrimeLab {
+    private static final String TAG = "CrimeLab";
+    private static final String FILENAME = "crimes.json";
+
     private ArrayList<Crime> mCrimes;
+    private CriminalIntentJSONSerializer mSerializer;
 
     // s prefix is an Android convention for static variable
     private static CrimeLab sCrimeLab;
@@ -19,6 +24,7 @@ public class CrimeLab {
     private CrimeLab(Context appContext) {
         mAppContext = appContext;
         mCrimes = new ArrayList<Crime>();
+        mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
     }
 
     // returns a singleton globally available within app
@@ -33,6 +39,18 @@ public class CrimeLab {
 
     public void addCrime (Crime crime) {
         mCrimes.add(crime);
+    }
+
+    public boolean saveCrimes() {
+        try {
+            mSerializer.saveCrimes(mCrimes);
+            Log.d(TAG, "crimes saved to file " + FILENAME);
+            return true;
+        } catch (Exception e) {
+            // Generally a production app wouldn't log, would show user a Toast
+            Log.e(TAG, "Error saving crimes: ", e);
+            return false;
+        }
     }
 
     public ArrayList<Crime> getCrimes() {
