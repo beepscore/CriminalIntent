@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -87,7 +88,10 @@ public class CrimeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_crime, container, false);
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        // getParentActivityName looks in AndroidManifest.xml
+        if (NavUtils.getParentActivityName(getActivity()) != null) {
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
         configureTitleField(rootView);
@@ -241,7 +245,9 @@ public class CrimeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // To be implemented next
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
