@@ -1,7 +1,9 @@
 package com.beepscore.android.criminalintent;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -73,12 +75,18 @@ public class CrimeFragment extends Fragment {
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
     }
 
+    // specify TargetApi so Android Lint won't complain for Froyo or Gingerbread
+    @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Fragments inflate their view in onCreateView, not in onCreate
         View rootView = inflater.inflate(R.layout.fragment_crime, container, false);
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
         configureTitleField(rootView);
         configureDateButton(rootView);
