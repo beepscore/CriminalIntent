@@ -2,9 +2,6 @@ package com.beepscore.android.criminalintent;
 
 import android.content.Context;
 import android.test.AndroidTestCase;
-import android.test.mock.MockContext;
-
-import junit.framework.TestCase;
 
 import java.util.ArrayList;
 
