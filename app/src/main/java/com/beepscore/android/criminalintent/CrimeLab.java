@@ -23,8 +23,15 @@ public class CrimeLab {
     // constructor is private, so other classes must use get()
     private CrimeLab(Context appContext) {
         mAppContext = appContext;
-        mCrimes = new ArrayList<Crime>();
         mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
+
+        try {
+            mCrimes = mSerializer.loadCrimes();
+        } catch (Exception e) {
+            // if no crimes, create a new empty list
+            mCrimes = new ArrayList<Crime>();
+            Log.e(TAG, "Error loading crimes: ", e);
+        }
     }
 
     // returns a singleton globally available within app
