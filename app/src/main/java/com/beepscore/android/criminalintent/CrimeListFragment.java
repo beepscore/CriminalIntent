@@ -4,8 +4,11 @@ package com.beepscore.android.criminalintent;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.NavUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -74,6 +77,14 @@ public class CrimeListFragment extends ListFragment {
 
         mAdapter = new CrimeAdapter(mCrimes);
         setListAdapter(mAdapter);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Fragments inflate their view in onCreateView, not in onCreate
+        View rootView = inflater.inflate(R.layout.fragment_crimelist_list, container, false);
+        return rootView;
     }
 
     @Override
