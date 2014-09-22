@@ -3,11 +3,8 @@ package com.beepscore.android.criminalintent;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.beepscore.android.criminalintent.dummy.DummyContent;
 
 import java.util.ArrayList;
 
@@ -42,6 +40,7 @@ public class CrimeListFragment extends ListFragment {
      * The fragment's ListView/GridView.
      */
     private AbsListView mListView;
+    private ImageButton mAddCrimeButton;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -84,6 +83,7 @@ public class CrimeListFragment extends ListFragment {
                              Bundle savedInstanceState) {
         // Fragments inflate their view in onCreateView, not in onCreate
         View rootView = inflater.inflate(R.layout.fragment_crimelist_list, container, false);
+        configureAddCrimeButton(rootView);
         return rootView;
     }
 
@@ -124,16 +124,29 @@ public class CrimeListFragment extends ListFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_new_crime:
-                Crime crime = new Crime();
-                CrimeLab.get(getActivity()).addCrime(crime);
-                Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
-                intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
-                int requestCode = 0;
-                startActivityForResult(intent, requestCode);
-                return true;
+                return addCrimeClicked();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void configureAddCrimeButton(View rootView) {
+        mAddCrimeButton = (ImageButton)rootView.findViewById(R.id.add_crime_button);
+        mAddCrimeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                addCrimeClicked();
+            }
+        });
+    }
+
+    private boolean addCrimeClicked() {
+        Crime crime = new Crime();
+        CrimeLab.get(getActivity()).addCrime(crime);
+        Intent intent = new Intent(getActivity(), CrimePagerActivity.class);
+        intent.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+        int requestCode = 0;
+        startActivityForResult(intent, requestCode);
+        return true;
     }
 
     @Override
