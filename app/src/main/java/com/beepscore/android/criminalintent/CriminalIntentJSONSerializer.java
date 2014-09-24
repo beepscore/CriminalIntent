@@ -67,8 +67,9 @@ public class CriminalIntentJSONSerializer {
         } catch (FileNotFoundException e) {
             // Starting without a file, so ignore.
         } finally {
-            if (reader != null)
+            if (reader != null) {
                 reader.close();
+            }
         }
         return crimes;
     }
