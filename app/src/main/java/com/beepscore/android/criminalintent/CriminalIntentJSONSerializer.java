@@ -1,19 +1,21 @@
 package com.beepscore.android.criminalintent;
 
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONTokener;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 
 /**
@@ -63,17 +65,27 @@ public class CriminalIntentJSONSerializer {
 
     public void saveCrimes(ArrayList<Crime> crimes)
             throws JSONException, IOException {
+        String TAG = "saveCrimes";
         // Build an array in JSON
         JSONArray array = new JSONArray();
         for (Crime crime : crimes)
             array.put(crime.toJSON());
 
         // Write the file to disk
-        Writer writer = null;
+        OutputStreamWriter writer = null;
         try {
-            OutputStream outputStream = mContext
-                    .openFileOutput(mFilename, Context.MODE_PRIVATE);
-            writer = new OutputStreamWriter(outputStream);
+            FileOutputStream out = null;
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                // SD card available
+                File downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                File file = new File(downloadsDirectory, mFilename);
+                String pathedFilename = file.getPath();
+                Log.d(TAG, pathedFilename);
+                out = new FileOutputStream(pathedFilename);
+            } else {
+                out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
+            }
+            writer = new OutputStreamWriter(out);
             writer.write(array.toString());
         } finally {
             if (writer != null) {
@@ -81,4 +93,5 @@ public class CriminalIntentJSONSerializer {
             }
         }
     }
+
 }
