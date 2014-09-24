@@ -59,10 +59,7 @@ public class CriminalIntentJSONSerializer {
             // Parse the JSON using JSONTokener.
             JSONArray array = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
 
-            // Build the array of crimes from JSONObjects
-            for (int i = 0; i <array.length(); ++i) {
-                crimes.add(new Crime(array.getJSONObject(i)));
-            }
+            crimesFromCrimesJSON(crimes, array);
 
         } catch (FileNotFoundException e) {
             // Starting without a file, so ignore.
@@ -76,11 +73,9 @@ public class CriminalIntentJSONSerializer {
 
     public void saveCrimes(ArrayList<Crime> crimes)
             throws JSONException, IOException {
+
         String TAG = "saveCrimes";
-        // Build an array in JSON
-        JSONArray array = new JSONArray();
-        for (Crime crime : crimes)
-            array.put(crime.toJSON());
+        JSONArray array = crimesJSONfromCrimes(crimes);
 
         // Write the file to disk
         OutputStreamWriter writer = null;
@@ -103,6 +98,20 @@ public class CriminalIntentJSONSerializer {
                 writer.close();
             }
         }
+    }
+
+    private void crimesFromCrimesJSON(ArrayList<Crime> crimes, JSONArray array) throws JSONException {
+        for (int i = 0; i <array.length(); ++i) {
+            crimes.add(new Crime(array.getJSONObject(i)));
+        }
+    }
+
+    private JSONArray crimesJSONfromCrimes(ArrayList<Crime> crimes) throws JSONException {
+        JSONArray array = new JSONArray();
+        for (Crime crime : crimes) {
+            array.put(crime.toJSON());
+        }
+        return array;
     }
 
 }
