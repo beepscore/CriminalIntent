@@ -33,6 +33,7 @@ public class CriminalIntentJSONSerializer {
     }
 
     public ArrayList<Crime> loadCrimes() throws IOException, JSONException {
+
         ArrayList<Crime> crimes = new ArrayList<Crime>();
         BufferedReader reader = null;
         try {
@@ -57,7 +58,7 @@ public class CriminalIntentJSONSerializer {
             // Parse the JSON using JSONTokener.
             JSONArray array = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
 
-            crimesFromCrimesJSON(crimes, array);
+            crimes = crimesFromCrimesJSON(array);
 
         } catch (FileNotFoundException e) {
             // Starting without a file, so ignore.
@@ -103,10 +104,12 @@ public class CriminalIntentJSONSerializer {
         return downloadsDirectory;
     }
 
-    private void crimesFromCrimesJSON(ArrayList<Crime> crimes, JSONArray array) throws JSONException {
-        for (int i = 0; i <array.length(); ++i) {
+    private ArrayList<Crime> crimesFromCrimesJSON(JSONArray array) throws JSONException {
+        ArrayList<Crime> crimes = new ArrayList<Crime>();
+        for (int i = 0; i < array.length(); ++i) {
             crimes.add(new Crime(array.getJSONObject(i)));
         }
+        return crimes;
     }
 
     private JSONArray crimesJSONfromCrimes(ArrayList<Crime> crimes) throws JSONException {
