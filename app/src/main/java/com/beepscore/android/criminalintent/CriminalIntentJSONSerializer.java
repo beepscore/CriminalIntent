@@ -38,10 +38,8 @@ public class CriminalIntentJSONSerializer {
         try {
             FileInputStream in = null;
             // Open and read the file into a StringBuilder.
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                // SD card available.
-                File downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                File file = new File(downloadsDirectory, mFilename);
+            if (downloadsDirectory() != null) {
+                File file = new File(downloadsDirectory(), mFilename);
                 String pathedFilename = file.getPath();
                 in = new FileInputStream(pathedFilename);
             } else {
@@ -74,19 +72,15 @@ public class CriminalIntentJSONSerializer {
     public void saveCrimes(ArrayList<Crime> crimes)
             throws JSONException, IOException {
 
-        String TAG = "saveCrimes";
         JSONArray array = crimesJSONfromCrimes(crimes);
 
         // Write the file to disk
         OutputStreamWriter writer = null;
         try {
             FileOutputStream out = null;
-            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                // SD card available
-                File downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                File file = new File(downloadsDirectory, mFilename);
+            if (downloadsDirectory() != null) {
+                File file = new File(downloadsDirectory(), mFilename);
                 String pathedFilename = file.getPath();
-                Log.d(TAG, pathedFilename);
                 out = new FileOutputStream(pathedFilename);
             } else {
                 out = mContext.openFileOutput(mFilename, Context.MODE_PRIVATE);
@@ -98,6 +92,15 @@ public class CriminalIntentJSONSerializer {
                 writer.close();
             }
         }
+    }
+
+    private File downloadsDirectory() {
+        File downloadsDirectory = null;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            // SD card available
+            downloadsDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        }
+        return downloadsDirectory;
     }
 
     private void crimesFromCrimesJSON(ArrayList<Crime> crimes, JSONArray array) throws JSONException {
