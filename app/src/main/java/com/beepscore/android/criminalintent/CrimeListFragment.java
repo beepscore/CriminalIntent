@@ -103,6 +103,8 @@ public class CrimeListFragment extends ListFragment {
             }
         }
 
+        // use findViewById()
+        // getListView() won't work here, it will return null until after onCreateView returns
         ListView listView = (ListView)rootView.findViewById(android.R.id.list);
         registerForContextMenu(listView);
 
