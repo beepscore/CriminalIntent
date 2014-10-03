@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -108,8 +109,54 @@ public class CrimeListFragment extends ListFragment {
         // use findViewById()
         // getListView() won't work here, it will return null until after onCreateView returns
         ListView listView = (ListView)rootView.findViewById(android.R.id.list);
-        registerForContextMenu(listView);
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            registerForContextMenu(listView);
+        } else {
+            // Use contextual action bar on Honeycomb and higher
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+            listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    MenuInflater inflater = mode.getMenuInflater();
+                    inflater.inflate(R.menu.crime_list_item_context, menu);
+                    return true;
+                }
+
+                public void onItemCheckedStateChanged(ActionMode mode, int position,
+                                                      long id, boolean checked) {
+                    // Required, but not used in this implementation
+                }
+
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_item_delete_crime:
+                            CrimeAdapter adapter = (CrimeAdapter)getListAdapter();
+                            CrimeLab crimeLab = CrimeLab.get(getActivity());
+                            for (int i = adapter.getCount() - 1; i >= 0; i--) {
+                                if (getListView().isItemChecked(i)) {
+                                    crimeLab.deleteCrime(adapter.getItem(i));
+                                }
+                            }
+                            mode.finish();
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    // Required, but not used in this implementation
+                    return false;
+                }
+
+                public void onDestroyActionMode(ActionMode mode) {
+                    // Required, but not used in this implementation
+
+            });
+
+        }
         return rootView;
     }
 
