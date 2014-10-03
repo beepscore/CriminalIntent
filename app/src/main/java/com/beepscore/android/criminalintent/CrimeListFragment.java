@@ -153,6 +153,7 @@ public class CrimeListFragment extends ListFragment {
 
                 public void onDestroyActionMode(ActionMode mode) {
                     // Required, but not used in this implementation
+                }
 
             });
 
