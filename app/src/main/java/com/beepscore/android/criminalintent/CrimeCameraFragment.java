@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class CrimeCameraFragment extends Fragment {
     private SurfaceView mSurfaceView;
 
     @Override
+    @SuppressWarnings("deprecation")
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime_camera, parent, false);
@@ -36,6 +38,15 @@ public class CrimeCameraFragment extends Fragment {
         });
 
         mSurfaceView = (SurfaceView)view.findViewById(R.id.crime_camera_surfaceView);
+
+        // When SurfaceView appears, Android creates a Surface.
+        // Surface is a buffer of raw pixel data.
+        // Can access Surface via SurfaceHolder.
+        SurfaceHolder holder = mSurfaceView.getHolder();
+
+        // setType() and SURFACE_TYPE_PUSH_BUFFERS are both deprecated,
+        // but are required for Camera preview to woerk on pre-3.0 devices.
+        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         return view;
     }
 
