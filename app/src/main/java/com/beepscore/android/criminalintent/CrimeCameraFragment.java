@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import java.io.IOException;
 import java.lang.annotation.Target;
+import java.util.List;
 
 /**
  * Created by stevebaker on 10/14/14.
@@ -47,7 +48,7 @@ public class CrimeCameraFragment extends Fragment {
         SurfaceHolder holder = mSurfaceView.getHolder();
 
         // setType() and SURFACE_TYPE_PUSH_BUFFERS are both deprecated,
-        // but are required for Camera preview to woerk on pre-3.0 devices.
+        // but are required for Camera preview to work on pre-3.0 devices.
         holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
         holder.addCallback(new SurfaceHolder.Callback() {
@@ -76,10 +77,8 @@ public class CrimeCameraFragment extends Fragment {
                 }
 
                 // The surface has changed size; update the camera preview size
-
                 Camera.Parameters parameters = mCamera.getParameters();
-                // clear size
-                Camera.Size s = null;
+                Camera.Size s = getBestSupportedSize(parameters.getSupportedPictureSizes(), w, h);
                 parameters.setPreviewSize(s.width, s.height);
                 mCamera.setParameters(parameters);
                 try {
@@ -94,6 +93,22 @@ public class CrimeCameraFragment extends Fragment {
         });
 
         return view;
+    }
+
+    /** A simple algorithm to get the largest size available. For a more
+     * robust version, see CameraPreview.java in the ApiDemos sample app from Android
+     */
+    private Camera.Size getBestSupportedSize(List<Camera.Size> sizes, int width, int height) {
+        Camera.Size bestSize = sizes.get(0);
+        int largestArea = bestSize.width * bestSize.height;
+        for (Camera.Size s : sizes) {
+            int area = s.width * s.height;
+            if (area > largestArea) {
+                bestSize = s;
+                largestArea = area;
+            }
+        }
+        return bestSize;
     }
 
     @TargetApi(9)
