@@ -3,6 +3,8 @@ package com.beepscore.android.criminalintent;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,6 +45,7 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_TIME = 1;
     public static final String EXTRA_CRIME_ID = "com.beepscore.android.criminalintent.crime_id";
     private Crime mCrime;
+    private ImageButton mPhotoButton;
     private EditText mTitleField;
     private Button mDateButton;
     private Button mTimeButton;
@@ -94,12 +98,37 @@ public class CrimeFragment extends Fragment {
         }
     }
 
+        configurePhotoButton(rootView);
         configureTitleField(rootView);
         configureDateButton(rootView);
         configureTimeButton(rootView);
         configureCheckBox(rootView);
 
         return rootView;
+    }
+
+    private void configurePhotoButton(View rootView) {
+        mPhotoButton = (ImageButton)rootView.findViewById(R.id.crime_imageButton);
+        mPhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CrimeCameraActivity.class);
+                startActivity(intent);
+            }
+        });
+        disablePhotoButtonIfNoCamera();
+    }
+
+    private void disablePhotoButtonIfNoCamera() {
+        // If camera is not available, disable camera functionality
+        PackageManager packageManager = getActivity().getPackageManager();
+        boolean hasACamera = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA) ||
+                packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT) ||
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD &&
+                        Camera.getNumberOfCameras() > 0);
+        if (!hasACamera) {
+            mPhotoButton.setEnabled(false);
+        }
     }
 
     private void configureTitleField(View rootView) {
