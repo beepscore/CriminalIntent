@@ -2,6 +2,7 @@ package com.beepscore.android.criminalintent;
 
 import android.annotation.TargetApi;
 import android.hardware.Camera;
+import android.hardware.Camera.Size;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import java.io.IOException;
-import java.lang.annotation.Target;
 import java.util.List;
 
 /**
@@ -78,7 +78,7 @@ public class CrimeCameraFragment extends Fragment {
 
                 // The surface has changed size; update the camera preview size
                 Camera.Parameters parameters = mCamera.getParameters();
-                Camera.Size s = getBestSupportedSize(parameters.getSupportedPictureSizes(), w, h);
+                Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(), w, h);
                 parameters.setPreviewSize(s.width, s.height);
                 mCamera.setParameters(parameters);
                 try {
@@ -98,12 +98,14 @@ public class CrimeCameraFragment extends Fragment {
     /** A simple algorithm to get the largest size available. For a more
      * robust version, see CameraPreview.java in the ApiDemos sample app from Android
      */
-    private Camera.Size getBestSupportedSize(List<Camera.Size> sizes, int width, int height) {
-        Camera.Size bestSize = sizes.get(0);
+    private Size getBestSupportedSize(List<Size> sizes, int width, int height) {
+        Size bestSize = sizes.get(0);
         int largestArea = bestSize.width * bestSize.height;
-        for (Camera.Size s : sizes) {
+        for (Size s : sizes) {
             int area = s.width * s.height;
-            if (area > largestArea) {
+            if ((area > largestArea) &&
+                    (s.width < width) &&
+                    (s.height < height)) {
                 bestSize = s;
                 largestArea = area;
             }
