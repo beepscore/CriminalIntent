@@ -1,4 +1,4 @@
-package com.beepscore.android.criminalintent.dummy;
+package com.beepscore.android.criminalintent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
