@@ -129,6 +129,8 @@ public class CrimeCameraFragment extends Fragment {
                 Camera.Parameters parameters = mCamera.getParameters();
                 Size s = getBestSupportedSize(parameters.getSupportedPreviewSizes(), w, h);
                 parameters.setPreviewSize(s.width, s.height);
+                s = getBestSupportedSize(parameters.getSupportedPictureSizes(), w, h);
+                parameters.setPictureSize(s.width, s.height);
                 mCamera.setParameters(parameters);
                 try {
                     mCamera.startPreview();
