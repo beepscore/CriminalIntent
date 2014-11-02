@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,10 +40,13 @@ import java.util.UUID;
  */
 public class CrimeFragment extends Fragment {
 
+    private static final String TAG = "CrimeFragment";
+
     private static final String DIALOG_DATE = "date";
     private static final int REQUEST_DATE = 0;
     private static final String DIALOG_TIME = "time";
     private static final int REQUEST_TIME = 1;
+    private static final int REQUEST_PHOTO = 2;
     public static final String EXTRA_CRIME_ID = "com.beepscore.android.criminalintent.crime_id";
     private Crime mCrime;
     private ImageButton mPhotoButton;
@@ -113,7 +117,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CrimeCameraActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_PHOTO);
             }
         });
         disablePhotoButtonIfNoCamera();
@@ -310,6 +314,14 @@ public class CrimeFragment extends Fragment {
             calendar.set(Calendar.MINUTE, minute);
             mCrime.setDate(calendar.getTime());
             updateTime();
+        }
+
+        if (requestCode == REQUEST_PHOTO) {
+            // Create a neww Photo object and attach it to the crime
+            String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
+            if (filename != null) {
+                Log.i(TAG, "filename: " + filename);
+            }
         }
     }
 
