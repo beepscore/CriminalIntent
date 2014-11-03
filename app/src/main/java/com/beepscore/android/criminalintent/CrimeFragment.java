@@ -260,6 +260,12 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        showPhoto();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
