@@ -21,5 +21,7 @@
     <string name="subtitle">If you see something, say something.</string>
     <string name="no_crimes">There are no crimes</string>
     <string name="take">Take!</string>
+    <string name="crime_suspect_text">Choose Suspect</string>
+    <string name="crime_report_text">Send Crime Report</string>
 
 </resources>
