@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,6 +51,7 @@ public class CrimeFragment extends Fragment {
     public static final String EXTRA_CRIME_ID = "com.beepscore.android.criminalintent.crime_id";
     private Crime mCrime;
     private ImageButton mPhotoButton;
+    private ImageView mPhotoView;
     private EditText mTitleField;
     private Button mDateButton;
     private Button mTimeButton;
@@ -102,6 +104,7 @@ public class CrimeFragment extends Fragment {
         }
     }
 
+        mPhotoView = (ImageView)rootView.findViewById(R.id.crime_imageView);
         configurePhotoButton(rootView);
         configureTitleField(rootView);
         configureDateButton(rootView);
