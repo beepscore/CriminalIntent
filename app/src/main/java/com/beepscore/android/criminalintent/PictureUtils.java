@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.Display;
+import android.widget.ImageView;
 
 /**
  * Created by stevebaker on 11/2/14.
@@ -43,6 +44,20 @@ public class PictureUtils {
 
         Bitmap bitmap = BitmapFactory.decodeFile(path, options);
         return new BitmapDrawable(activity.getResources(), bitmap);
+    }
+
+    public static void cleanImageView(ImageView imageView) {
+        if (!(imageView.getDrawable() instanceof BitmapDrawable)) {
+            return;
+        }
+
+        // Clean up the view's image to conserve memory
+        BitmapDrawable bitmapDrawable = (BitmapDrawable)imageView.getDrawable();
+        // explicitly call recycle to recover memory immediately.
+        // otherwise memory won't be recovered immediately when bitmap is garbage-collected,
+        // won't be recovered until a "finalizer" runs.
+        bitmapDrawable.getBitmap().recycle();
+        imageView.setImageDrawable(null);
     }
 
 }
