@@ -50,6 +50,9 @@ public class CrimeFragment extends Fragment {
     private static final int REQUEST_TIME = 1;
     private static final int REQUEST_PHOTO = 2;
     public static final String EXTRA_CRIME_ID = "com.beepscore.android.criminalintent.crime_id";
+
+    private static final String DIALOG_IMAGE = "image";
+
     private Crime mCrime;
     private ImageButton mPhotoButton;
     private ImageView mPhotoView;
@@ -105,7 +108,7 @@ public class CrimeFragment extends Fragment {
         }
     }
 
-        mPhotoView = (ImageView)rootView.findViewById(R.id.crime_imageView);
+        configurePhotoView(rootView);
         configurePhotoButton(rootView);
         configureTitleField(rootView);
         configureDateButton(rootView);
@@ -113,6 +116,22 @@ public class CrimeFragment extends Fragment {
         configureCheckBox(rootView);
 
         return rootView;
+    }
+
+    private void configurePhotoView(View rootView) {
+        mPhotoView = (ImageView)rootView.findViewById(R.id.crime_imageView);
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Photo photo = mCrime.getPhoto();
+                if (photo == null) {
+                    return;
+                }
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                String path = getActivity().getFileStreamPath(photo.getFilename()).getAbsolutePath();
+                ImageFragment.newInstance(path).show(fragmentManager, DIALOG_IMAGE);
+            }
+        });
     }
 
     private void configurePhotoButton(View rootView) {
