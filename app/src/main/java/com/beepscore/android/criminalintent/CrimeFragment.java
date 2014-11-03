@@ -332,7 +332,7 @@ public class CrimeFragment extends Fragment {
             if (filename != null) {
                 Photo photo = new Photo(filename);
                 mCrime.setPhoto(photo);
-                Log.i(TAG, "Crime: " + mCrime.getTitle() + " has a photo");
+                showPhoto();
             }
         }
     }
