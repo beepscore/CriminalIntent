@@ -113,6 +113,7 @@ public class CrimeFragment extends Fragment {
         configureDateButton(rootView);
         configureTimeButton(rootView);
         configureCheckBox(rootView);
+        configureReportButton(rootView);
 
         return rootView;
     }
@@ -220,6 +221,23 @@ public class CrimeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // set the crime's solved property
                 mCrime.setSolved(isChecked);
+            }
+        });
+    }
+
+    private void configureReportButton(View rootView) {
+        Button reportButton = (Button)rootView.findViewById(R.id.crime_report_button);
+        reportButton.setOnClickListener(new View.OnClickListener() {
+            public  void onClick(View view) {
+                // create implicit intent, describes to OS the job intent wants to be done
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, getCrimeReport());
+                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.crime_report_subject));
+                // when implicit intent is used to start activity,
+                // as long as more than one activity can handle the intent, show chooser
+                intent = Intent.createChooser(intent, getString(R.string.send_report));
+                startActivity(intent);
             }
         });
     }
