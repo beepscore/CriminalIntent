@@ -4,10 +4,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
@@ -48,12 +51,14 @@ public class CrimeFragment extends Fragment {
     private static final String DIALOG_TIME = "time";
     private static final int REQUEST_TIME = 1;
     private static final int REQUEST_PHOTO = 2;
+    private static final int REQUEST_CONTACT = 3;
     public static final String EXTRA_CRIME_ID = "com.beepscore.android.criminalintent.crime_id";
 
     private static final String DIALOG_IMAGE = "image";
 
     private Crime mCrime;
     private ImageButton mPhotoButton;
+    private Button mSuspectButton;
     private ImageView mPhotoView;
     private EditText mTitleField;
     private Button mDateButton;
@@ -114,6 +119,7 @@ public class CrimeFragment extends Fragment {
         configureTimeButton(rootView);
         configureCheckBox(rootView);
         configureReportButton(rootView);
+        configureSuspectButton(rootView);
 
         return rootView;
     }
@@ -240,6 +246,22 @@ public class CrimeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    private void configureSuspectButton(View rootView) {
+        mSuspectButton = (Button)rootView.findViewById(R.id.crime_suspect_button);
+        mSuspectButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // implicit intent. Android OS will find eligible activities
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CONTACT);
+            }
+        });
+
+        if (mCrime.getSuspect() != null) {
+            mSuspectButton.setText(mCrime.getSuspect());
+        }
     }
 
     private void updateDate() {
@@ -369,7 +391,7 @@ public class CrimeFragment extends Fragment {
         }
 
         if (requestCode == REQUEST_PHOTO) {
-            // Create a neww Photo object and attach it to the crime
+            // Create a new Photo object and attach it to the crime
             String filename = data.getStringExtra(CrimeCameraFragment.EXTRA_PHOTO_FILENAME);
             if (filename != null) {
                 Photo photo = new Photo(filename);
@@ -377,6 +399,35 @@ public class CrimeFragment extends Fragment {
                 showPhoto();
             }
         }
+
+        if (requestCode == REQUEST_CONTACT) {
+
+            Uri contactUri = data.getData();
+
+            // Specify which fields you want your query to return values for.
+            String[] queryFields = new String[] {
+                    ContactsContract.Contacts.DISPLAY_NAME
+            };
+
+            // Perform query - here the contactUri is like a "where" clause
+            Cursor cursor = getActivity().getContentResolver()
+                    .query(contactUri, queryFields, null, null, null);
+
+            // if results are empty, return
+            if (cursor.getCount() == 0) {
+                cursor.close();
+                return;
+            }
+
+            cursor.moveToFirst();
+            final String COLUMN_NAME = "DISPLAY_NAME";
+            int columnNameIndex = cursor.getColumnIndex(COLUMN_NAME);
+            String suspectName = cursor.getString(columnNameIndex);
+            mCrime.setSuspect(suspectName);
+            mSuspectButton.setText(suspectName);
+            cursor.close();
+        }
+
     }
 
     private void showPhoto() {
